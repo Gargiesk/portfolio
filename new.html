@@ -15,13 +15,7 @@
             --on-surface: #e0e0e0;
             --flash-color: rgba(187, 134, 252, 0.3);
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--background);
@@ -29,43 +23,26 @@
             line-height: 1.6;
             overflow-x: hidden;
         }
-         /* Video background container */
         .video-background {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; overflow: hidden;
         }
-        
-        /* Video element styling */
         .video-background video {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-70%, -70%);
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            filter: blur(0px); 
-              opacity: 100;
+            min-width: 100%; min-height: 100%;
+            width: auto; height: auto;
+            filter: blur(0px); opacity: 100;
         }
-        
-        /* Fallback image if video doesn't load */
         .video-background::after {
             content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Dark overlay for better text contrast */
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
             z-index: 1;
         }
-
         /* Header Styles */
         header {
             background-color: rgba(107, 7, 7, 0.95);
@@ -77,12 +54,14 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
         }
-
         header.scrolled {
             padding: 1rem 0;
             background-color: rgba(20, 20, 20, 0.98);
         }
-
+        header.hide-nav {
+            transform: translateY(-120%);
+            transition: transform 0.5s cubic-bezier(.68,-0.55,.27,1.55);
+        }
         .header-container {
             width: 90%;
             max-width: 1200px;
@@ -91,7 +70,6 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
@@ -100,20 +78,12 @@
             display: flex;
             align-items: center;
         }
-
-        .logo i {
-            margin-right: 0.5rem;
-        }
-
+        .logo i { margin-right: 0.5rem; }
         nav ul {
             display: flex;
             list-style: none;
         }
-
-        nav li {
-            margin-left: 1.5rem;
-        }
-
+        nav li { margin-left: 1.5rem; }
         nav a {
             color: var(--on-surface);
             text-decoration: none;
@@ -124,55 +94,88 @@
             position: relative;
             overflow: hidden;
         }
-
         nav a:hover {
             color: var(--primary);
             background-color: rgba(187, 134, 252, 0.1);
         }
-
         nav a::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
+            bottom: 0; left: 0;
+            width: 0; height: 2px;
             background-color: var(--primary);
             transition: width 0.3s ease;
         }
-
-        nav a:hover::after {
-            width: 100%;
+        nav a:hover::after { width: 100%; }
+        /* Hamburger menu styles */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 40px; height: 40px;
+            cursor: pointer;
+            z-index: 1100;
         }
-
-        /* Main Content */
+        .nav-toggle span {
+            display: block;
+            width: 28px;
+            height: 4px;
+            margin: 4px 0;
+            background: var(--on-surface);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .nav-toggle.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .nav-toggle.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+        /* Responsive Nav */
+        @media (max-width: 900px) {
+            .header-container { flex-direction: row; }
+            nav ul {
+                position: fixed;
+                top: 70px;
+                right: 0;
+                width: 220px;
+                height: calc(100vh - 70px);
+                background: rgba(30,30,30,0.98);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 2rem 1rem;
+                gap: 1.2rem;
+                transform: translateX(100%);
+                transition: transform 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+                box-shadow: -2px 0 12px rgba(0,0,0,0.2);
+                z-index: 1050;
+            }
+            nav ul.open {
+                transform: translateX(0);
+            }
+            nav li { margin: 0 0 1.2rem 0; }
+            .nav-toggle { display: flex; }
+        }
+        @media (max-width: 700px) {
+            header { padding: 1rem 0; }
+            .header-container { flex-direction: row; }
+            nav ul { top: 60px; }
+            .logo { font-size: 1.3rem; }
+        }
         main {
             margin-top: 6rem;
             padding: 2rem 0;
         }
-
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
         }
-
-        /* Section Cards */
-        /* .section-card {
-            height: 100%;
-            width: 100%;
-            background-color: var(--surface);
-            border-radius: 12px;
-            padding: 2.5rem;
-            margin-bottom: 3rem;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-            position: relative;
-            overflow: hidden;
-        } */
-         section {
+        section {
             height: 100vh;
             width: 100%;
             background-color: var(--surface);
@@ -189,29 +192,21 @@
             padding: 2rem;
             text-align: center;
         }
-
         .section-card.visible {
             opacity: 1;
             transform: translateY(0);
         }
-
         .section-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: linear-gradient(135deg, var(--flash-color), transparent);
             opacity: 0;
             transition: opacity 0.3s ease;
             pointer-events: none;
         }
-
-        .section-card:hover::before {
-            opacity: 1;
-        }
-
+        .section-card:hover::before { opacity: 1; }
         .section-card h2 {
             color: var(--primary);
             margin-bottom: 1.5rem;
@@ -219,59 +214,38 @@
             display: flex;
             align-items: center;
         }
-
         .section-card h2 i {
             margin-right: 1rem;
             transition: transform 0.3s ease;
         }
-
         .section-card:hover h2 i {
             transform: rotate(15deg) scale(1.1);
         }
-
-        /* About Section */
-        #about {
-            margin-top: 2rem;
-        }
-
+        #about { margin-top: 2rem; }
         .about-content {
             display: flex;
             flex-wrap: wrap;
             gap: 2rem;
             align-items: center;
         }
-
-        .about-text {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .profile-image {
-            flex: 0 0 300px;
-            display: flex;
-            justify-content: center;
-        }
-
+        .about-text { flex: 1; min-width: 300px; }
+        .profile-image { flex: 0 0 300px; display: flex; justify-content: center; }
         .profile-photo {
-            width: 100%;
-            max-width: 300px;
+            width: 100%; max-width: 300px;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             transition: transform 0.5s ease, box-shadow 0.5s ease;
         }
-
         .profile-image:hover .profile-photo {
             transform: scale(1.03) rotate(1deg);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
-
         .social-links {
             margin-top: 1.5rem;
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
         }
-
         .social-links a {
             color: var(--on-surface);
             text-decoration: none;
@@ -282,80 +256,35 @@
             border-radius: 6px;
             transition: all 0.3s ease;
         }
-
         .social-links a:hover {
             background-color: var(--primary);
             color: #000;
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(187, 134, 252, 0.3);
         }
-
-        .social-links a i {
-            margin-right: 0.5rem;
-        }
-
-        /* Flash Animation */
+        .social-links a i { margin-right: 0.5rem; }
         @keyframes flash {
             0% { box-shadow: 0 0 10px 0 var(--flash-color); }
             50% { box-shadow: 0 0 20px 10px var(--flash-color); }
             100% { box-shadow: 0 0 10px 0 var(--flash-color); }
         }
-
         .flash-animation {
             animation: flash 1.5s ease-in-out;
         }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            nav ul {
-                margin-top: 1rem;
-                justify-content: center;
-            }
-
-            nav li {
-                margin: 0 0.5rem;
-            }
-
-            .about-content {
-                flex-direction: column;
-            }
-
-            .profile-image {
-                margin-top: 2rem;
-            }
-
-            .section-card {
-                padding: 1.5rem;
-            }
+            .header-container { flex-direction: column; text-align: center; }
+            nav ul { margin-top: 1rem; justify-content: center; }
+            nav li { margin: 0 0.5rem; }
+            .about-content { flex-direction: column; }
+            .profile-image { margin-top: 2rem; }
+            .section-card { padding: 1.5rem; }
+            .video-background video { display: none; }
+            .video-background { background: url('fallback-image.jpg') center/cover no-repeat; }
+            h1 { font-size: 2rem; }
         }
-
         @media (max-width: 480px) {
-            nav ul {
-                flex-direction: column;
-            }
-
-            nav li {
-                margin: 0.3rem 0;
-            }
-        }
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .video-background video {
-                display: none; /* Hide video on mobile */
-            }
-            
-            .video-background {
-                background: url('fallback-image.jpg') center/cover no-repeat;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
+            nav ul { flex-direction: column; }
+            nav li { margin: 0.3rem 0; }
         }
     </style>
 </head>
@@ -363,18 +292,20 @@
     <!-- Video Background -->
     <div class="video-background">
         <video autoplay muted loop playsinline>
-            <!-- Provide multiple formats for browser compatibility -->
             <source src="new.mp4" type="video/mp4">
-            
-            <!-- Fallback image if video doesn't load -->
             Your browser does not support the video tag.
         </video>
     </div>
     <header id="main-header">
         <div class="header-container">
             <a href="#" class="logo"><i class="fas fa-code"></i> Alex Chen</a>
+            <div class="nav-toggle" id="navToggle" aria-label="Toggle navigation" tabindex="0">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
             <nav>
-                <ul>
+                <ul id="navMenu">
                     <li><a href="#about"><i class="fas fa-user"></i> About</a></li>
                     <li><a href="#skills"><i class="fas fa-code"></i> Skills</a></li>
                     <li><a href="#projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
@@ -383,7 +314,6 @@
             </nav>
         </div>
     </header>
-
     <main>
         <div class="container">
             <!-- About Section -->
@@ -404,7 +334,6 @@
                     </div>
                 </div>
             </section>
-
             <!-- Skills Section -->
             <section id="skills" class="section-card">
                 <h2><i class="fas fa-code"></i> Skills</h2>
@@ -413,7 +342,6 @@
                     <!-- Skill content would go here -->
                 </div>
             </section>
-
             <!-- Projects Section -->
             <section id="projects" class="section-card">
                 <h2><i class="fas fa-project-diagram"></i> Projects</h2>
@@ -422,7 +350,6 @@
                     <!-- Project content would go here -->
                 </div>
             </section>
-
             <!-- Contact Section -->
             <section id="contact" class="section-card">
                 <h2><i class="fas fa-envelope"></i> Contact</h2>
@@ -433,12 +360,20 @@
             </section>
         </div>
     </main>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Header scroll effect
+            // Header scroll effect & hide nav on scroll down
             const header = document.getElementById('main-header');
+            let lastScroll = 0;
             window.addEventListener('scroll', function() {
+                const currentScroll = window.scrollY;
+                if (currentScroll > lastScroll && currentScroll > 80) {
+                    header.classList.add('hide-nav');
+                } else {
+                    header.classList.remove('hide-nav');
+                }
+                lastScroll = currentScroll;
+                // Shrink header on scroll
                 if (window.scrollY > 50) {
                     header.classList.add('scrolled');
                 } else {
@@ -446,14 +381,33 @@
                 }
             });
 
+            // Hamburger menu toggle
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+            navToggle.addEventListener('click', function() {
+                navToggle.classList.toggle('active');
+                navMenu.classList.toggle('open');
+            });
+            navToggle.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    navToggle.classList.toggle('active');
+                    navMenu.classList.toggle('open');
+                }
+            });
+            // Close menu on link click (mobile)
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    navToggle.classList.remove('active');
+                    navMenu.classList.remove('open');
+                });
+            });
+
             // Smooth scrolling for navigation
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     e.preventDefault();
-                    
                     const targetId = this.getAttribute('href');
                     const targetElement = document.querySelector(targetId);
-                    
                     if (targetElement) {
                         window.scrollTo({
                             top: targetElement.offsetTop - 100,
@@ -465,21 +419,16 @@
 
             // Section scroll animations
             const sectionCards = document.querySelectorAll('.section-card');
-            
             function checkScroll() {
                 sectionCards.forEach(card => {
                     const cardTop = card.getBoundingClientRect().top;
                     const windowHeight = window.innerHeight;
-                    
                     if (cardTop < windowHeight - 100) {
                         card.classList.add('visible');
-                        
                         // Add flash effect when section comes into view
                         if (!card.hasAttribute('data-animated')) {
                             card.classList.add('flash-animation');
                             card.setAttribute('data-animated', 'true');
-                            
-                            // Remove flash class after animation completes
                             setTimeout(() => {
                                 card.classList.remove('flash-animation');
                             }, 1500);
@@ -487,11 +436,7 @@
                     }
                 });
             }
-            
-            // Initial check
             checkScroll();
-            
-            // Check on scroll
             window.addEventListener('scroll', checkScroll);
 
             // Hover color effects for section cards
@@ -500,7 +445,6 @@
                     this.style.borderLeft = `4px solid ${getComputedStyle(document.documentElement).getPropertyValue('--primary')}`;
                     this.style.transform = 'translateY(-5px)';
                 });
-                
                 card.addEventListener('mouseleave', function() {
                     this.style.borderLeft = '4px solid transparent';
                     this.style.transform = 'translateY(0)';
